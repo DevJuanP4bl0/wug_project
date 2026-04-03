@@ -1,3 +1,6 @@
+#ifndef DATA_H
+#define DATA_H
+
 #include <stdbool.h>
 
 typedef enum {
@@ -16,4 +19,4 @@ typedef struct node {
   struct node *next;
 } node_t;
 
-
+#endif
