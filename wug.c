@@ -2,13 +2,13 @@
 #include "wug.h"
 #include "data.h"
 
-wug_t create_wug(int genome[16], gender_t g){
-    wug_t wug;
+wug_t* create_wug(int genome[16], gender_t g){
+    wug_t* wug = malloc(sizeof(wug_t));
     
-    for (int i = 0; i < 16; i++)
-        wug.genome[i] = genome[i];
+    wug->gender = g;
 
-    wug.gender = g;
+    for (int i = 0; i < 16; i++)
+        wug->genome[i] = genome[i];
 
     return wug;
 }
@@ -32,4 +32,17 @@ void genome2features(const int genome[16], int features[4]){
         else
             features[i] = 0;
     }
+}
+
+int rank(const wug_t* w){
+    int countRank = 0;
+    int features[4];
+
+    genome2features(w->genome, features);
+
+    for (int i = 0; i < 4; i++){
+        countRank += features[i];
+    }
+
+    return countRank;
 }
