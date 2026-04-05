@@ -100,12 +100,39 @@ void print_wug(wug_t *w) {
     free(string_features);
 }
 
-int report_population(wug_t** population, const int size) {
+void  print_population(wug_t** population, const int size){
     for (int i = 0; i < size; i++){
         printf("%d ", i);
         print_wug(population[i]);
     }
-
-    return 0;
 }
 
+int report_population(wug_t** population, const int size){
+    int features[4];
+    int count[16] = {0};
+
+    for (int i = 0; i < size; i++) {
+        int sum = 0;
+        genome2features(population[i]->genome, features);
+
+        for (int j = 0; j < 4; j++)
+            sum = sum * 2 + features[j];
+
+        count[sum]++;
+    }
+
+    for (int i = 0; i < 16; i++) {
+        if (count[i] > 0){
+            for (int j = 0; j < 4; j++){
+               /*Operação bitwise */
+               features[j] = (i >> (3 - j)) & 1;  
+            }
+
+            char *string_features = array_string(features, 4);
+
+            printf("%s %d\n", string_features, count[i]);
+        }
+    }
+
+    return count[15];
+}
