@@ -49,35 +49,33 @@ int rank(const wug_t* w){
     return countRank;
 }
 
-static void insertion_sort(wug_t** population, int* size){
-    for (int i = 1; i < *size; i++){
-        wug_t* temp = population[i];
-        int j = i - 1;
+static void insertion_sort(wug_t** population, int* size, int rank_wug){
+    int j = *size - 1;
 
-        while (j >= 0 && population[j] < temp){
-            population[i] = population[j];
-            j--;  
-        }
-        population[j+1] = temp;
+    while (j > 0 && rank_wug > rank(population[j-1])){
+        wug_t* temp = population[j];
+        population[j] = population[j-1];
+        population[j-1] = temp;   
+        j--;
     }
 }
 
 bool insert_ranked(wug_t** population, wug_t* w, int* size, int capacity){
-    int rank_wug = rank(w);
+     int rank_wug = rank(w);
     
     if (*size < capacity){
         population[*size] = w;
         (*size)++;
 
         if (*size > 1)
-            insertion_sort(population, size);
+            insertion_sort(population, size, rank_wug);
 
         return true;
     }
     else {
         if (rank_wug > rank(population[capacity - 1])){
             population[capacity - 1] = w;
-            insertion_sort(population, size);
+            insertion_sort(population, size, rank_wug);
 
             return true;
         }
@@ -96,5 +94,18 @@ void print_wug(wug_t *w) {
     char *string_features = array_string(features, 4);
 
     printf("%c %s %s %d\n", w->gender, string_wug, string_features, rankWug);
+
+    /* Para evitar memory leak da alocação feita em array_string */
+    free(string_wug);
+    free(string_features);
+}
+
+int report_population(wug_t** population, const int size) {
+    for (int i = 0; i < size; i++){
+        printf("%d ", i);
+        print_wug(population[i]);
+    }
+
+    return 0;
 }
 
