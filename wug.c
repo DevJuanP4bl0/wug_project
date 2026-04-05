@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "wug.h"
 #include "data.h"
+#include "util.h"
 
 wug_t* create_wug(int genome[16], gender_t g){
     /* Separa memoria na heap para struct wug */
@@ -84,3 +85,16 @@ bool insert_ranked(wug_t** population, wug_t* w, int* size, int capacity){
         
     return false;
 }
+
+void print_wug(wug_t *w) {
+    char *string_wug = array_string(w->genome, 16);
+    int features[4];
+    int rankWug = rank(w);
+
+    genome2features(w->genome, features);
+
+    char *string_features = array_string(features, 4);
+
+    printf("%c %s %s %d\n", w->gender, string_wug, string_features, rankWug);
+}
+
