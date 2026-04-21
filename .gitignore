@@ -1,4 +1,5 @@
-# arquivos compilados
-
+# object files
 *.o
+
+# executaveis
 a.out

@@ -27,6 +27,10 @@ void  print_population(wug_t** population, const int size);
 
 void genome2features(const int genome[16], int features[4]);
 
+/* responsável por liberar a memória de cada individuo da população*/
+
+void free_population (wug_t** population, const int size);
+
 
 /* A função abaixo informa a quantidade de superwugs da população */
 

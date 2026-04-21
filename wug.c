@@ -74,13 +74,16 @@ bool insert_ranked(wug_t** population, wug_t* w, int* size, int capacity){
     }
     else {
         if (rank_wug > rank(population[capacity - 1])){
+            wug_t* disalocated_wug = population[capacity - 1];
             population[capacity - 1] = w;
+            free(disalocated_wug);
             insertion_sort(population, size, rank_wug);
 
             return true;
         }
     }
-        
+     
+    free(w);
     return false;
 }
 
@@ -131,8 +134,14 @@ int report_population(wug_t** population, const int size){
             char *string_features = array_string(features, 4);
 
             printf("%s %d\n", string_features, count[i]);
+            free(string_features);
         }
     }
 
     return count[15];
+}
+
+void free_population (wug_t** population, const int size) {
+    for (int i = 0; i < size; i++) 
+        free(population[i]);
 }
